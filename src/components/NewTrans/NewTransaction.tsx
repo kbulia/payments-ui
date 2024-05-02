@@ -45,8 +45,8 @@ const NewTransaction = () : JSX.Element => {
 
     const orderIdInput = useRef<HTMLInputElement | null>(null);
     useEffect( () => {
-        orderIdInput.current?.focus(); //? to set when not null and to get cursor on orderid field
-    })
+        orderIdInput.current?.focus(); 
+    }, [])
     
     return (<form className="addTransactionsForm" onSubmit={handleSubmit}>
     <h2>New transaction</h2>

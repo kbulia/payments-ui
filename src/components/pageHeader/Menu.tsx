@@ -18,8 +18,9 @@ const Menu = () : JSX.Element => {
             <li><Link to="/find">Find a transaction</Link></li>
             <li><Link to="/add">New transaction</Link></li>
             <li>
-                {userDetails.name.length === 0 && <Link to="/signin">Sign In</Link>}
-                {userDetails.name.length > 0 && <p>Welcome {userDetails.name}</p>}
+                {/* {userDetails.name.length === 0 && <Link to="/signin">Sign In</Link>}
+                {userDetails.name.length > 0 && <p>Welcome {userDetails.name}</p>} */}
+                {userDetails.id === 0 ? (<Link to="/signin">Sign In</Link> ) : (<p>Welcome {userDetails.name}</p>)}
                 </li>
                 
                 

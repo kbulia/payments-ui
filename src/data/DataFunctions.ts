@@ -48,3 +48,12 @@ export const getPaymentsForCountry = (country : string)
         headers :  {'Accept': 'application/json'}
     })
 }
+
+export const addNewTransactions = (payment: PaymentType) : Promise<AxiosResponse<PaymentType>> => {
+    return axios<PaymentType> ({
+        url: `${serverUrl}/api/payment`,
+        method: "POST",
+        headers: {'Accept': 'application/json', 'Content-type' : 'application/json'},
+        data: payment
+    })
+}

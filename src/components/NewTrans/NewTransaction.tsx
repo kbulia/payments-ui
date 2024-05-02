@@ -1,5 +1,6 @@
-import { ChangeEvent, FormEvent, useReducer, useState } from "react";
-import { PaymentType } from "../../data/DataFunctions";
+import { ChangeEvent, FormEvent, useEffect, useReducer, useRef, useState } from "react";
+import { PaymentType, addNewTransactions } from "../../data/DataFunctions";
+import { useNavigate } from "react-router-dom";
 
 const NewTransaction = () : JSX.Element => {
 
@@ -23,8 +24,17 @@ const NewTransaction = () : JSX.Element => {
 
     const [newTransaction, dispatch] = useReducer(reducerFunction, initialNewTransactionState )
  
+    const navigate = useNavigate();
+
     const handleSubmit = (e : FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        addNewTransactions(newTransaction).then(result => {
+            //should check status and error
+            console.log(result.data);
+            const country = result.data.country;
+            //navigate to /find?country=...
+            navigate("/find?country="+country);
+        })
         
         console.log("saving " + newTransaction.country)
     }
@@ -32,11 +42,16 @@ const NewTransaction = () : JSX.Element => {
         dispatch({field : e.target.id, value : e.target.value});
         console.log(e.target.id + e.target.value)
     }
+
+    const orderIdInput = useRef<HTMLInputElement | null>(null);
+    useEffect( () => {
+        orderIdInput.current?.focus(); //? to set when not null and to get cursor on orderid field
+    })
     
     return (<form className="addTransactionsForm" onSubmit={handleSubmit}>
     <h2>New transaction</h2>
     <label htmlFor="orderId">Order Id</label>
-    <input type="text" id="orderId"  onChange={handleChange} value={newTransaction.orderId}/>
+    <input type="text" id="orderId" ref={orderIdInput} onChange={handleChange} value={newTransaction.orderId}/>
     <br/>
     <label htmlFor="date">Date</label>
     <input type="date" id="date"  onChange={handleChange} value={newTransaction.date}/>
